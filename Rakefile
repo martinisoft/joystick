@@ -10,7 +10,7 @@ begin
     gem.homepage = "http://github.com/martinisoft/joystick"
     gem.authors = ["Aaron Kalin"]
     gem.version = Joystick::Version
-    gem.add_development_dependency "shoulda", ">= 0"
+    gem.add_development_dependency "cucumber", ">= 0"
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
   end
   Jeweler::GemcutterTasks.new
@@ -48,4 +48,13 @@ Rake::RDocTask.new do |rdoc|
   rdoc.title = "joystick #{Joystick::Version}"
   rdoc.rdoc_files.include('README*')
   rdoc.rdoc_files.include('lib/**/*.rb')
+end
+
+desc "Push a new version to Gemcutter"
+task :publish => [ :test, :gemspec, :build ] do
+  system "git tag v#{Joystick::Version}"
+  system "git push origin v#{Joystick::Version}"
+  system "git push origin master"
+  system "gem push pkg/mustache-#{Joystick::Version}.gem"
+  system "git clean -fd"
 end
