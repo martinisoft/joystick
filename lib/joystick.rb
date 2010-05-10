@@ -17,6 +17,11 @@ require 'logger'
 require 'joystick/version'
 
 module Joystick
+  class ModernWarfare
+    HEADERBYTE = "\xFF" * 4
+    NULLBYTE = "\x00"
+  end
+  
   class Source
     # execution command
     COMMAND_EXEC = 2
